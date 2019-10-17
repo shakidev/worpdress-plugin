@@ -2,7 +2,6 @@
 
 class WTOTEMSEC_LIBRARY_WebTotem
 {
-//    const URL = "https://m875vnqd.wtotem.com/v1/graphql";
     const URL = "https://api.wtotem.com/v1/graphql";
 
     public static function auth($key)

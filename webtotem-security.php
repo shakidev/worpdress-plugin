@@ -12,7 +12,6 @@ define("WTOTEMSEC_PLUGIN_PATH", plugin_dir_path(__FILE__));
 define("WTOTEMSEC_PLUGIN_NAME", 'webtotem-security');
 define("WTOTEMSEC_PLUGIN_PREFIX", 'wtotemsec_');
 define("WTOTEMSEC_PAGE_PREFIX", WTOTEMSEC_PLUGIN_NAME . '-');
-//define("WTOTEMSEC_FILE_URL", "https://m875vnqd.wtotem.com");
 define("WTOTEMSEC_FILE_URL", "https://api.wtotem.com");
 define("WTOTEMSEC_ROOT", WP_PLUGIN_DIR . '/');
 define("WTOTEMSEC_MODULES_DIR", WTOTEMSEC_PLUGIN_PATH . 'uploads/');
