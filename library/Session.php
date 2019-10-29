@@ -1,6 +1,7 @@
-<?php
+<?php defined('ABSPATH') or die("Protected By WT!");
 
-class WTOTEMSEC_LIBRARY_Session
+
+class WTSEC_LIBRARY_Session
 {
     public static function notifications()
     {
@@ -8,7 +9,7 @@ class WTOTEMSEC_LIBRARY_Session
             "error","info","warning","success"
         ];
         foreach ($notification_types as $type) {
-            if ($notifications = get_option(WTOTEMSEC_PLUGIN_PREFIX.$type)) {
+            if ($notifications = get_option(WTSEC_PLUGIN_PREFIX.$type)) {
                 if(is_array($notifications)) {
                     foreach ($notifications as $notification) {
                         echo '<div class="ww-main ww-main--grid" id="ww-alert" title="" data-tlite="">
@@ -27,15 +28,15 @@ class WTOTEMSEC_LIBRARY_Session
     }
 
     protected static function deleteNotification($name){
-        return delete_option(WTOTEMSEC_PLUGIN_PREFIX.$name);
+        return delete_option(WTSEC_PLUGIN_PREFIX.$name);
     }
 
     public static function setNotification($type,$value){
-        if($notifications = get_option(WTOTEMSEC_PLUGIN_PREFIX.$type)){
+        if($notifications = get_option(WTSEC_PLUGIN_PREFIX.$type)){
             $notifications[] = $value;
-            update_option(WTOTEMSEC_PLUGIN_PREFIX.$type,$notifications);
+            update_option(WTSEC_PLUGIN_PREFIX.$type,$notifications);
         }else{
-            update_option(WTOTEMSEC_PLUGIN_PREFIX.$type,[$value]);
+            update_option(WTSEC_PLUGIN_PREFIX.$type,[$value]);
         }
     }
 }

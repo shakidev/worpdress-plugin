@@ -1,6 +1,7 @@
-<?php
+<?php defined('ABSPATH') or die("Protected By WT!");
 
-class WTOTEMSEC_LIBRARY_Request
+
+class WTSEC_LIBRARY_Request
 {
 
     public $request;
@@ -10,10 +11,23 @@ class WTOTEMSEC_LIBRARY_Request
     public function __construct()
     {
         $this->request = [];
-        $this->request += $_GET;
-        $this->request += $_POST;
-        $this->request = (object) $this->request;
-        $this->method = $_SERVER['REQUEST_METHOD'];
+        $this->request += $this->clean($_GET);
+        $this->request += $this->clean($_POST);
+        $this->request = (object)$this->request;
+        $this->method = $this->clean($_SERVER['REQUEST_METHOD']);
+    }
+
+    public function clean($data)
+    {
+        if (is_array($data)) {
+            foreach ($data as $key => $value) {
+                unset($data[$key]);
+                $data[$this->clean($key)] = $this->clean($value);
+            }
+        } else {
+            $data = htmlspecialchars(strip_tags($data), ENT_COMPAT, 'UTF-8');
+        }
+        return $data;
     }
 
     public function __get($name)
@@ -21,15 +35,9 @@ class WTOTEMSEC_LIBRARY_Request
         if (!is_null($this->request) && array_key_exists($name, $this->request)) {
             return $this->request->$name;
         }
-        if(isset($this->$name)){
+        if (isset($this->$name)) {
             return $this->$name;
-        }else{
-            return "";
         }
+        return "";
     }
-
-    public function url(){
-        return $_SERVER['REQUEST_URI'];
-    }
-
 }
