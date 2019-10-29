@@ -79,16 +79,6 @@ window.onload = function() {
     }
 
     if (lineChartNode) {
-        function last_7_days () {
-            return '0123456'.split('').map(function(n) {
-                var d = new Date();
-                d.setDate(d.getDate() - n);
-
-                return (function(day, month, year) {
-                    return [day<10 ? '0'+day : day, month<10 ? '0'+month : month].join('/');
-                })(d.getDate(), d.getMonth(), d.getFullYear());
-            }).join(',');
-        }
         const lineChart = document.getElementById('lineChart').getContext('2d');
         let _data = [];
         let _days = [];

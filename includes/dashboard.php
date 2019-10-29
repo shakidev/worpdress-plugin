@@ -1,29 +1,30 @@
-     <div class="ww-main ww-main--grid">
+<?php defined('ABSPATH') or die("Protected By WT!");?>
+<div class="ww-main ww-main--grid">
                 <div class="ww-main__graph">
-                    <div class="ww-title"><img class="ww-icon" src="<?=wtotemsec_getImagePath("icon-shield-check.432cf8d4.svg")?>"
-                                               alt=""><span><?=wtotemsec_locale("firewall")?></span>
+                    <div class="ww-title"><img class="ww-icon" src="<?=wtsec_getImagePath("icon-shield-check.432cf8d4.svg")?>"
+                                               alt=""><span><?=wtsec_locale("firewall")?></span>
                         <?php if(isset($arguments["waf"]["description"])){?>
                         <div class="ww-icon ww-icon--info js--tooltip" data-tlite="w" title="<?=$arguments["waf"]["description"]?>"></div>
                         <?php } ?>
                     </div>
                     <div class="ww-graph ww-graph--line">
-                        <div class="ww-graph__name"><?=wtotemsec_locale("attacks_blocked_weekly")?></div><canvas id="lineChart" width="420"
+                        <div class="ww-graph__name"><?=wtsec_locale("attacks_blocked_weekly")?></div><canvas id="lineChart" width="420"
                                                                                        height="200"></canvas>
                     </div>
                 </div>
                 <div class="ww-main__stats">
-                    <div class="ww-title"><span><?=wtotemsec_locale("stats")?></span></div>
+                    <div class="ww-title"><span><?=wtsec_locale("stats")?></span></div>
                     <div class="ww-info ww-info--column">
                         <div class="ww-info__item">
-                            <div class="ww-info__name"><?=wtotemsec_locale("status")?></div>
+                            <div class="ww-info__name"><?=wtsec_locale("status")?></div>
                             <div class="ww-info__value"><?=$arguments["waf"]["status"]["text"]?></div>
                         </div>
                         <div class="ww-info__item">
-                            <div class="ww-info__name"><?=wtotemsec_locale("last_test")?></div>
+                            <div class="ww-info__name"><?=wtsec_locale("last_test")?></div>
                             <div class="ww-info__value"><?=$arguments["waf"]["time_of_the_last_check"]?></div>
                         </div>
                         <div class="ww-info__item ww-info__item--highlight">
-                            <div class="ww-info__name"><?=wtotemsec_locale("attacks_blocked")?></div>
+                            <div class="ww-info__name"><?=wtsec_locale("attacks_blocked")?></div>
                             <div class="ww-info__value"><?=$arguments["waf"]["signatures"]?></div>
                         </div>
                     </div>
@@ -39,8 +40,8 @@
                 <div class="ww-grid__3">
                     <div class="ww-main ww-main--small">
                         <div class="ww-content__header">
-                            <div class="ww-title ww-title--small"><img class="ww-icon" src="<?=wtotemsec_getImagePath("icon-diagnostic.3882a66e.svg")?>"
-                                                                       alt=""><span><?=wtotemsec_locale("availability")?></span>
+                            <div class="ww-title ww-title--small"><img class="ww-icon" src="<?=wtsec_getImagePath("icon-diagnostic.3882a66e.svg")?>"
+                                                                       alt=""><span><?=wtsec_locale("availability")?></span>
                                 <?php if(isset($arguments["wa"]["description"])){?>
                                 <div class="ww-icon ww-icon--info js--tooltip" data-tlite="w" title="<?=$arguments["wa"]["description"]?>"></div>
                                 <?php } ?>
@@ -50,20 +51,20 @@
                         <div class="ww-graph ww-graph--circle"><canvas id="circleChart" width="120" height="45"></canvas>
                             <div class="ww-graph__info">
                                 <div class="ww-graph__percent"><?=$arguments["wa"]["availability_percent"]?>%</div>
-                                <div class="ww-graph__title"><?=wtotemsec_locale("available")?></div>
+                                <div class="ww-graph__title"><?=wtsec_locale("available")?></div>
                             </div>
                         </div>
                         <div class="ww-info ww-info--column">
                             <div class="ww-info__item">
-                                <div class="ww-info__name"><?=wtotemsec_locale("status")?></div>
+                                <div class="ww-info__name"><?=wtsec_locale("status")?></div>
                                 <div class="ww-info__value"><?=$arguments["wa"]["status"]["text"]?></div>
                             </div>
                             <div class="ww-info__item">
-                                <div class="ww-info__name"><?=wtotemsec_locale("downtime")?></div>
+                                <div class="ww-info__name"><?=wtsec_locale("downtime")?></div>
                                 <div class="ww-info__value"><?=$arguments["wa"]["downtime"]?></div>
                             </div>
                             <div class="ww-info__item">
-                                <div class="ww-info__name"><?=wtotemsec_locale("response_time")?></div>
+                                <div class="ww-info__name"><?=wtsec_locale("response_time")?></div>
                                 <div class="ww-info__value"><?=$arguments["wa"]["response_time"]?></div>
                             </div>
                         </div>
@@ -72,8 +73,8 @@
                 <div class="ww-grid__3">
                     <div class="ww-main ww-main--small">
                         <div class="ww-content__header">
-                            <div class="ww-title ww-title--small"><img class="ww-icon" src="<?=wtotemsec_getImagePath("icon-ssl.e6bef731.svg")?>"
-                                                                       alt=""><span><?=wtotemsec_locale("ssl")?></span>
+                            <div class="ww-title ww-title--small"><img class="ww-icon" src="<?=wtsec_getImagePath("icon-ssl.e6bef731.svg")?>"
+                                                                       alt=""><span><?=wtsec_locale("ssl")?></span>
                                 <?php if(isset($arguments["ssl"]["description"])){?>
                                     <div class="ww-icon ww-icon--info js--tooltip" data-tlite="w" title="<?=$arguments["ssl"]["description"]?>"></div>
                                 <?php } ?>
@@ -105,19 +106,15 @@
                         </div>
                         <div class="ww-info ww-info--column">
                             <div class="ww-info__item">
-                                <div class="ww-info__name"><?=wtotemsec_locale("status")?></div>
+                                <div class="ww-info__name"><?=wtsec_locale("status")?></div>
                                 <div class="ww-info__value"><?=$arguments["ssl"]["status"]["text"]?></div>
                             </div>
                             <div class="ww-info__item">
-                                <div class="ww-info__name"><?=wtotemsec_locale("issue_date")?></div>
-                                <div class="ww-info__value"><?=$arguments["ssl"]["issue_date"]?></div>
-                            </div>
-                            <div class="ww-info__item">
-                                <div class="ww-info__name"><?=wtotemsec_locale("expiry_date")?></div>
+                                <div class="ww-info__name"><?=wtsec_locale("expiry_date")?></div>
                                 <div class="ww-info__value"><?=$arguments["ssl"]["expiry_date"]?></div>
                             </div>
                             <div class="ww-info__item">
-                                <div class="ww-info__name"><?=wtotemsec_locale("days_left")?></div>
+                                <div class="ww-info__name"><?=wtsec_locale("days_left")?></div>
                                 <div class="ww-info__value"><?=$arguments["ssl"]["days_left"]?></div>
                             </div>
                         </div>
@@ -126,8 +123,8 @@
                 <div class="ww-grid__3">
                     <div class="ww-main ww-main--small">
                         <div class="ww-content__header">
-                            <div class="ww-title ww-title--small"><img class="ww-icon" src="<?=wtotemsec_getImagePath("icon-shield.0208ca15.svg")?>"
-                                                                       alt=""><span><?=wtotemsec_locale("domain")?></span>
+                            <div class="ww-title ww-title--small"><img class="ww-icon" src="<?=wtsec_getImagePath("icon-shield.0208ca15.svg")?>"
+                                                                       alt=""><span><?=wtsec_locale("domain")?></span>
                                 <?php if(isset($arguments["dec"]["description"])){?>
                                 <div class="ww-icon ww-icon--info js--tooltip" data-tlite="w" title="<?=$arguments["dec"]["description"]?>"></div>
                                 <?php } ?>
@@ -136,36 +133,36 @@
                         </div>
                         <div class="ww-domain">
                             <div class="ww-domain__item">
-                                <div class="ww-domain__name"><?=wtotemsec_locale("days_left")?></div>
+                                <div class="ww-domain__name"><?=wtsec_locale("days_left")?></div>
                                 <div class="ww-domain__value ww-domain__value--numb"><?=$arguments["dec"]["days_left"]?></div>
                             </div>
                             <div class="ww-domain__item">
-                                <div class="ww-domain__name"><?=wtotemsec_locale("status")?></div>
+                                <div class="ww-domain__name"><?=wtsec_locale("status")?></div>
                                 <div class="ww-domain__value">
                                     <div class="ww-icon ww-icon--status <?=$arguments["dec"]["status"]["icon"]?>"></div>
                                 </div>
                             </div>
                             <div class="ww-domain__item">
-                                <div class="ww-domain__name"><?=wtotemsec_locale("expiry_date")?></div>
+                                <div class="ww-domain__name"><?=wtsec_locale("expiry_date")?></div>
                                 <div class="ww-domain__value is--status--ok"><?=$arguments["dec"]["expiry_date"]?></div>
                             </div>
                         </div>
                         <div class="ww-info ww-info--column">
                             <?php if(isset($arguments["dec"]["registrar"])){?>
                                 <div class="ww-info__item">
-                                <div class="ww-info__name"><?=wtotemsec_locale("registrar")?></div>
+                                <div class="ww-info__name"><?=wtsec_locale("registrar")?></div>
                                 <div class="ww-info__value ww-info__value--small"><?=$arguments["dec"]["registrar"]?></div>
                             </div>
                             <?php } ?>
                             <?php if(isset($arguments["dec"]["owner"])){?>
                             <div class="ww-info__item">
-                                <div class="ww-info__name"><?=wtotemsec_locale("owner")?></div>
+                                <div class="ww-info__name"><?=wtsec_locale("owner")?></div>
                                 <div class="ww-info__value ww-info__value--small"><?=$arguments["dec"]["owner"]?></div>
                             </div>
                             <?php } ?>
                             <?php if(isset($arguments["dec"]["email"])){?>
                             <div class="ww-info__item">
-                                <div class="ww-info__name"><?=wtotemsec_locale("email")?></div>
+                                <div class="ww-info__name"><?=wtsec_locale("email")?></div>
                                 <div class="ww-info__value ww-info__value--small"><?=$arguments["dec"]["email"]?></div>
                             </div>
                             <?php } ?>
@@ -175,8 +172,8 @@
                 <div class="ww-grid__3">
                     <div class="ww-main ww-main--small">
                         <div class="ww-content__header">
-                            <div class="ww-title ww-title--small"><img class="ww-icon" src="<?=wtotemsec_getImagePath("icon-star.ce261205.svg")?>"
-                                                                       alt=""><span><?=wtotemsec_locale("reputation")?></span>
+                            <div class="ww-title ww-title--small"><img class="ww-icon" src="<?=wtsec_getImagePath("icon-star.ce261205.svg")?>"
+                                                                       alt=""><span><?=wtsec_locale("reputation")?></span>
                                 <?php if(isset($arguments["av"]["description"])){?>
                                 <div class="ww-icon ww-icon--info js--tooltip" data-tlite="w" title="<?=$arguments["av"]["description"]?>"></div>
                                 <?php } ?>
@@ -185,15 +182,15 @@
                         </div>
                         <div class="ww-info ww-info--column">
                             <div class="ww-info__item">
-                                <div class="ww-info__name"><?=wtotemsec_locale("status")?></div>
+                                <div class="ww-info__name"><?=wtsec_locale("status")?></div>
                                 <div class="ww-info__value"><?=$arguments["av"]["status"]["text"]?></div>
                             </div>
                             <div class="ww-info__item">
-                                <div class="ww-info__name"><?=wtotemsec_locale("blacklists_entries")?></div>
+                                <div class="ww-info__name"><?=wtsec_locale("blacklists_entries")?></div>
                                 <div class="ww-info__value"><?=$arguments["av"]["blacklists_entries"]?></div>
                             </div>
                             <div class="ww-info__item">
-                                <div class="ww-info__name"><?=wtotemsec_locale("last_test")?></div>
+                                <div class="ww-info__name"><?=wtsec_locale("last_test")?></div>
                                 <div class="ww-info__value"><?=$arguments["av"]["time_of_the_last_test"]?></div>
                             </div>
                         </div>
@@ -202,8 +199,8 @@
                 <div class="ww-grid__3">
                     <div class="ww-main ww-main--small">
                         <div class="ww-content__header">
-                            <div class="ww-title ww-title--small"><img class="ww-icon" src="<?=wtotemsec_getImagePath("icon-script.b34b3af7.svg")?>"
-                                                                       alt=""><span><?=wtotemsec_locale("malicious_scripts")?></span>
+                            <div class="ww-title ww-title--small"><img class="ww-icon" src="<?=wtsec_getImagePath("icon-script.b34b3af7.svg")?>"
+                                                                       alt=""><span><?=wtsec_locale("malicious_scripts")?></span>
                                 <?php if(isset($arguments["cms"]["description"])){?>
                                 <div class="ww-icon ww-icon--info js--tooltip" data-tlite="w" title="<?=$arguments["cms"]["description"]?>"></div>
                                 <?php } ?>
@@ -212,15 +209,15 @@
                         </div>
                         <div class="ww-info ww-info--column">
                             <div class="ww-info__item">
-                                <div class="ww-info__name"><?=wtotemsec_locale("status")?></div>
+                                <div class="ww-info__name"><?=wtsec_locale("status")?></div>
                                 <div class="ww-info__value"><?=$arguments["cms"]["status"]["text"]?></div>
                             </div>
                             <div class="ww-info__item">
-                                <div class="ww-info__name"><?=wtotemsec_locale("last_test")?></div>
+                                <div class="ww-info__name"><?=wtsec_locale("last_test")?></div>
                                 <div class="ww-info__value"><?=$arguments["cms"]["time_of_the_last_test"]?></div>
                             </div>
                             <div class="ww-info__item">
-                                <div class="ww-info__name"><?=wtotemsec_locale("detected_keywords")?></div>
+                                <div class="ww-info__name"><?=wtsec_locale("detected_keywords")?></div>
                                 <div class="ww-info__value <?=$arguments["cms"]["detected_keywords"] > 0 ?'ww-info__value--bg' : ''?>"><?=$arguments["cms"]["detected_keywords"]?></div>
                             </div>
                         </div>
@@ -229,8 +226,8 @@
                 <div class="ww-grid__3">
                     <div class="ww-main ww-main--small">
                         <div class="ww-content__header">
-                            <div class="ww-title ww-title--small"><img class="ww-icon" src="<?=wtotemsec_getImagePath("icon-script.b34b3af7.svg")?>"
-                                                                       alt=""><span><?=wtotemsec_locale("deface_scanner")?></span>
+                            <div class="ww-title ww-title--small"><img class="ww-icon" src="<?=wtsec_getImagePath("icon-script.b34b3af7.svg")?>"
+                                                                       alt=""><span><?=wtsec_locale("deface_scanner")?></span>
                                 <?php if(isset($arguments["dc"]["description"])){?>
                                 <div class="ww-icon ww-icon--info js--tooltip" data-tlite="w" title="<?=$arguments["dc"]["description"]?>"></div>
                                 <?php } ?>
@@ -239,15 +236,15 @@
                         </div>
                         <div class="ww-info ww-info--column">
                             <div class="ww-info__item">
-                                <div class="ww-info__name"><?=wtotemsec_locale("status")?></div>
+                                <div class="ww-info__name"><?=wtsec_locale("status")?></div>
                                 <div class="ww-info__value is--status--warning"><?=$arguments["dc"]["status"]["text"]?></div>
                             </div>
                             <div class="ww-info__item">
-                                <div class="ww-info__name"><?=wtotemsec_locale("last_test")?></div>
+                                <div class="ww-info__name"><?=wtsec_locale("last_test")?></div>
                                 <div class="ww-info__value"><?=$arguments["dc"]["time_of_the_last_test"]?></div>
                             </div>
                             <div class="ww-info__item">
-                                <div class="ww-info__name"><?=wtotemsec_locale("number")?></div>
+                                <div class="ww-info__name"><?=wtsec_locale("number")?></div>
                                 <div class="ww-info__value <?=$arguments["dc"]["number"] > 0 ?'ww-info__value--bg' : ''?>"><?=$arguments["dc"]["number"]?></div>
                             </div>
                         </div>
@@ -256,8 +253,8 @@
                 <div class="ww-grid__3">
                     <div class="ww-main ww-main--small">
                         <div class="ww-content__header">
-                            <div class="ww-title ww-title--small"><img class="ww-icon" src="<?=wtotemsec_getImagePath("icon-antivirus.2c163fba.svg")?>"
-                                                                       alt=""><span><?=wtotemsec_locale("remote_antivirus")?></span>
+                            <div class="ww-title ww-title--small"><img class="ww-icon" src="<?=wtsec_getImagePath("icon-antivirus.2c163fba.svg")?>"
+                                                                       alt=""><span><?=wtsec_locale("remote_antivirus")?></span>
                                 <?php if(isset($arguments["vc"]["description"])){?>
                                 <div class="ww-icon ww-icon--info js--tooltip" data-tlite="w" title="<?=$arguments["vc"]["description"]?>"></div>
                                 <?php } ?>
@@ -266,17 +263,17 @@
                         </div>
                         <div class="ww-info ww-info--column antivirus_form">
                             <div class="ww-info__item">
-                                <div class="ww-info__name"><?=wtotemsec_locale("status")?></div>
+                                <div class="ww-info__name"><?=wtsec_locale("status")?></div>
                                 <div class="ww-info__value"><?=$arguments["vc"]["status"]["text"]?></div>
                             </div>
                             <div class="ww-info__item">
-                                <div class="ww-info__name"><?=wtotemsec_locale("signatures")?><?php if($arguments["vc"]["signatures"] > 0){?>
-                                    <a href="<?=wtotemsec_getUrl('vc') ?>" class="eye-vc"><img class="ww-icon" src="<?=wtotemsec_getImagePath("icon-eye.5d74dcb4.svg")?>" alt=""></a><?php } ?></div>
+                                <div class="ww-info__name"><?=wtsec_locale("signatures")?><?php if($arguments["vc"]["signatures"] > 0){?>
+                                    <a href="<?=wtsec_getUrl('vc') ?>" class="eye-vc"><img class="ww-icon" src="<?=wtsec_getImagePath("icon-eye.5d74dcb4.svg")?>" alt=""></a><?php } ?></div>
                                 <div class="ww-info__value <?=$arguments["vc"]["signatures"] > 0 ?'ww-info__value--bg' : ''?>"><?=$arguments["vc"]["signatures"]?></div>
                             </div>
                             <div class="ww-info__item">
-                                <div class="ww-info__name"><?=wtotemsec_locale("changes")?><?php if($arguments["vc"]["changes"] > 0){?>
-                                    <a href="<?=wtotemsec_getUrl('vc') ?>" class="eye-vc"><img class="ww-icon" src="<?=wtotemsec_getImagePath("icon-eye.5d74dcb4.svg")?>" alt=""></a><?php } ?></div>
+                                <div class="ww-info__name"><?=wtsec_locale("changes")?><?php if($arguments["vc"]["changes"] > 0){?>
+                                    <a href="<?=wtsec_getUrl('vc') ?>" class="eye-vc"><img class="ww-icon" src="<?=wtsec_getImagePath("icon-eye.5d74dcb4.svg")?>" alt=""></a><?php } ?></div>
                                 <div class="ww-info__value"><?=$arguments["vc"]["changes"]?></div>
                             </div>
                             <?php if(isset($arguments['vc']['actions']['first'])){?>

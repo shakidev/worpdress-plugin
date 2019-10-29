@@ -1,5 +1,6 @@
-<?php
-final class WTOTEMSEC_LIBRARY_Idn
+<?php defined('ABSPATH') or die("Protected By WT!");
+
+final class WTSEC_LIBRARY_Idn
 {
     private static $decodeTable = array(
         'a' => 0, 'b' => 1, 'c' => 2, 'd' => 3, 'e' => 4, 'f' => 5,

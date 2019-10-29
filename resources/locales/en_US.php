@@ -1,4 +1,5 @@
-<?php
+<?php defined('ABSPATH') or die("Protected By WT!");
+
 $messages = [
     'welcome' => 'Welcome %%name%%!',
     'sites' => 'Sites',
@@ -165,7 +166,7 @@ $messages = [
     'could_not_connect_to_the_server' => 'Could not connect to the server.',
     'could_not_install_file' => 'Unable to install the %%service%% file in the %%directory%%',
     'could_not_uninstall_file' => 'Unable to uninstall the %%service%% file in the %%directory%%',
-    'wtotem_account' => 'Webtotem Account:',
+    'wtotem_account' => 'WT Account:',
     'forgot_your_password' => 'Forgot your password?',
     'description' => 'Description:',
     'descriptions' => [
@@ -208,19 +209,19 @@ $messages = [
     "stats" => "Stats",
     "attacks_blocked" => "Attacks blocked",
     "enter_api_key" => "Please, enter your API KEY to use it.",
-    "activation" => "WebTotem Activation",
+    "activation" => "WT Activation",
     "activation_desc" => "You can receive the keys in the mail or in your personal account",
-    "auth_desc" => "To display WebTotem page, please authorize in WebTotem",
+    "auth_desc" => "To display WT page, please authorize in WT",
     "send" => "Send",
-    "connection" => "WebTotem connection",
+    "connection" => "WT connection",
     "activate_your_plugin" => "Activate your plugin",
     "faq" => [
         "faq_1_question" => "1. What do these widgets mean?",
         "faq_1_answer" => "<div>Widgets from the left side are the modules available for security and monitoring</div>",
         "faq_2_question" => "2. Is it free? / Why is it free?",
-        "faq_2_answer" => "<div>Webtotem is absolutely free service for individual website owners up to 10 websites. We prevent website infection epidemic and provide basic needed security support.
+        "faq_2_answer" => "<div>WT is absolutely free service for individual website owners up to 10 websites. We prevent website infection epidemic and provide basic needed security support.
         Up to 10 websites FREE</div>",
-        "faq_3_question" => "3. How Webtotem is different from other plugins?",
+        "faq_3_question" => "3. How WT is different from other plugins?",
         "faq_3_answer" => "<div>Using 8 modules for external and internal monitoring, just in two clicks  you can check your website vulnerability for Firewall requests and executable Antivirus files.</div>",
         "faq_4_question" => "4. Your website is under attack or hacked?",
         "faq_4_answer" => "<div>a) Go to your personal account and write in support. Describe in detail the situation (website, date and time of the incident)</div><div>b) <a href=\"https://wtotem.com/cabinet/\" target='_blank'>Go to your personal account</a> to  the One-time services section. Select the desired service, describing the incident and order the paid service.</div>",

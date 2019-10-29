@@ -1,6 +1,7 @@
-<?php
+<?php defined('ABSPATH') or die("Protected By WT!");
 
-class WTOTEMSEC_LIBRARY_App
+
+class WTSEC_LIBRARY_App
 {
 
     public function __construct()
@@ -10,7 +11,7 @@ class WTOTEMSEC_LIBRARY_App
 
     public function auth(){
         if(self::getOption('authorized') === false){
-            wp_redirect(wtotemsec_getUrl('login'));
+            wp_redirect(wtsec_getUrl('login'));
             exit;
         }
     }
@@ -36,15 +37,19 @@ class WTOTEMSEC_LIBRARY_App
     }
 
     public function set($name,$value){
-        return update_option(WTOTEMSEC_PLUGIN_PREFIX.$name,$value);
+        return update_option(WTSEC_PLUGIN_PREFIX.$name,$value);
     }
 
     public function get($name){
-        return get_option(WTOTEMSEC_PLUGIN_PREFIX.$name);
+        return get_option(WTSEC_PLUGIN_PREFIX.$name);
     }
 
     public static function getOption($name){
-        return get_option(WTOTEMSEC_PLUGIN_PREFIX.$name);
+        return get_option(WTSEC_PLUGIN_PREFIX.$name);
+    }
+
+    public static function deleteOption($name){
+        return delete_option(WTSEC_PLUGIN_PREFIX.$name);
     }
 
     public static function getToken(){

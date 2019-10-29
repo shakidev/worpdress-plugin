@@ -1,13 +1,13 @@
-<?php
+<?php defined('ABSPATH') or die("Protected By WT!");
 
-function wtotemsec_cmd($wp_filesystem,$cmd, $service, $_service, $uid, $status,$domain = ''){
+function wtsec_cmd($wp_filesystem,$cmd, $service, $_service, $uid, $status,$domain = ''){
 
     switch ($cmd) {
         case $_service . "_install":
             try {
-                $file = wtotemsec_generateFile($uid, $service);
+                $file = wtsec_generateFile($uid, $service);
                 if($service === "WAF"){
-                $plugin_path = str_replace(ABSPATH, $wp_filesystem->abspath(), WTOTEMSEC_INSTALLATION_DIR);
+                $plugin_path = str_replace(ABSPATH, $wp_filesystem->abspath(), WTSEC_INSTALLATION_DIR);
                 $path = $plugin_path;
                 $target_dir = $wp_filesystem->find_folder($path);
                 if(!$wp_filesystem->is_dir($path)) {
@@ -15,42 +15,46 @@ function wtotemsec_cmd($wp_filesystem,$cmd, $service, $_service, $uid, $status,$
                 }
                 $target_file = trailingslashit($target_dir).$file['name'];
                 if (!$wp_filesystem->put_contents($target_file, $file['file'], FS_CHMOD_FILE)){
-                        WTOTEMSEC_LIBRARY_Session::setNotification("warning",WTOTEMSEC_LIBRARY_Localization::lmsg('could_not_install_file', ['service' => $service,'directory' => $target_dir]));
-                 }
+                        WTSEC_LIBRARY_Session::setNotification("warning",WTSEC_LIBRARY_Localization::lmsg('could_not_install_file', ['service' => $service,'directory' => $target_dir]));
+                 }else{
+                    WTSEC_LIBRARY_App::set($_service . '_installed_file',$file['name']);
+                }
                 }else{
                     $target_dir = $wp_filesystem->find_folder($wp_filesystem->abspath());
                     $target_file = trailingslashit($target_dir).$file['name'];
                     if(!$wp_filesystem->put_contents($target_file, $file['file'])) {
-                        WTOTEMSEC_LIBRARY_Session::setNotification("warning",WTOTEMSEC_LIBRARY_Localization::lmsg('could_not_install_file', ['service' => $service,'directory' => $target_dir]));
+                        WTSEC_LIBRARY_Session::setNotification("warning",WTSEC_LIBRARY_Localization::lmsg('could_not_install_file', ['service' => $service,'directory' => $target_dir]));
+                    }else{
+                        WTSEC_LIBRARY_App::set($_service . '_installed_file',$file['name']);
                     }
                 }
-                wtotemsec_serviceConnect($uid, $service,$domain.'/'.$file['name']);
+                wtsec_serviceConnect($uid, $service,$domain.'/'.$file['name']);
             } catch (Exception $e) {
                 print_r($e->getMessage());
                 die();
             }
             break;
         case $_service . "_start":
-            WTOTEMSEC_LIBRARY_Webtotem::changeStatus($status['config_id'],$uid);
-            wtotemsec_app()->set($_service.'_status',"start");
+            WTSEC_LIBRARY_WT::changeStatus($status['config_id'],$uid);
+            wtsec_app()->set($_service.'_status',"start");
             break;
         case $_service . "_stop":
-            WTOTEMSEC_LIBRARY_Webtotem::changeStatus($status['config_id'],$uid);
-            wtotemsec_app()->set($_service.'_status',"stop");
+            WTSEC_LIBRARY_WT::changeStatus($status['config_id'],$uid);
+            wtsec_app()->set($_service.'_status',"stop");
             break;
         case $_service . "_connect":
-            $file = wtotemsec_getInstalledFile($service);
-            if (!is_null($file)) {
-                wtotemsec_serviceConnect($uid, $service, $domain . '/' . $file);
+            $file = wtsec_getInstalledFile($_service);
+            if ($file) {
+                wtsec_serviceConnect($uid, $service, $domain . '/' . $file);
             }else{
-                WTOTEMSEC_LIBRARY_Session::setNotification("warning",WTOTEMSEC_LIBRARY_Localization::lmsg('file_not_found', ['service' => $service]));
+                WTSEC_LIBRARY_Session::setNotification("warning",WTSEC_LIBRARY_Localization::lmsg('file_not_found', ['service' => $service]));
             }
             break;
         case $_service . "_uninstall":
             try {
-                $file = wtotemsec_getInstalledFile($service);
+                $file = wtsec_getInstalledFile($_service);
                 if($service === "WAF"){
-                    $plugin_path = str_replace(ABSPATH, $wp_filesystem->abspath(), WTOTEMSEC_INSTALLATION_DIR);
+                    $plugin_path = str_replace(ABSPATH, $wp_filesystem->abspath(), WTSEC_INSTALLATION_DIR);
                     $mainDir = $plugin_path;
                 }else{
                     $mainDir = $wp_filesystem->abspath();
@@ -58,56 +62,56 @@ function wtotemsec_cmd($wp_filesystem,$cmd, $service, $_service, $uid, $status,$
                 $target_dir = $wp_filesystem->find_folder($mainDir);
                 $target_file = trailingslashit($mainDir).$file;
                 if (!$wp_filesystem->delete($target_file)) {
-                    WTOTEMSEC_LIBRARY_Session::setNotification("warning",WTOTEMSEC_LIBRARY_Localization::lmsg('could_not_uninstall_file', ['service' => $service,'directory' => $target_dir]));
+                    WTSEC_LIBRARY_Session::setNotification("warning",WTSEC_LIBRARY_Localization::lmsg('could_not_uninstall_file', ['service' => $service,'directory' => $target_dir]));
                 }
+                WTSEC_LIBRARY_App::set($_service . '_status', "uninstalled");
+                WTSEC_LIBRARY_App::deleteOption($_service . '_installed_file');
             } catch (Exception $e) {
                 print_r($e->getMessage());
                 die();
             }
             break;
     }
-
-//    return "success";
 }
 
-function wtotemsec_checkStatus($id, $service)
+function wtsec_checkStatus($id, $service)
 {
-    $result = WTOTEMSEC_LIBRARY_Webtotem::checkStatus($id,$service);
+    $result = WTSEC_LIBRARY_WT::checkStatus($id,$service);
     $data = $result['data'][strtolower($service) . 'ServiceChecks'][0];
     $is_active = (boolean)$data['config']['isActive'];
     $config_id = $data['config']['id'];
     $status = $data['status'];
     if ($status == -300 && $is_active) {
-        WTOTEMSEC_LIBRARY_App::set($service . '_connected_' . $id, false);
+        WTSEC_LIBRARY_App::set($service . '_connected_' . $id, false);
     }
     return ['active' => $is_active, 'status' => $status, 'config_id' => $config_id];
 }
 
 
 
-function wtotemsec_generateFile($id, $service)
+function wtsec_generateFile($id, $service)
 {
-    $result = WTOTEMSEC_LIBRARY_Webtotem::generateFile($id,$service);
+    $result = WTSEC_LIBRARY_WT::generateFile($id,$service);
     $name = $result['data']['generateAgent']['agentName'] . '.' . strtolower($service) . '.php';
-    $file = WTOTEMSEC_LIBRARY_WebTotem::requestURL(WTOTEMSEC_FILE_URL . '/' . $name);
+    $file = WTSEC_LIBRARY_WT::requestURL(WTSEC_FILE_URL . '/' . $name);
     if(empty($file)){
-        $file = WTOTEMSEC_LIBRARY_WebTotem::requestURL(WTOTEMSEC_FILE_URL . '/' . $name);
+        $file = WTSEC_LIBRARY_WT::requestURL(WTSEC_FILE_URL . '/' . $name);
     }
     return ['file' => $file, 'name' => $name];
 }
 
-function wtotemsec_serviceConnect($id, $service,$domain = '')
+function wtsec_serviceConnect($id, $service,$domain = '')
 {
-    $result = WTOTEMSEC_LIBRARY_Webtotem::serviceConnect($id,$service);
+    $result = WTSEC_LIBRARY_WT::serviceConnect($id,$service);
     $status = (isset($result['errors']) || isset($result['data']['checkAgent']['lockFor']) || (isset($result['data']['checkAgent']['installed']) && $result['data']['checkAgent']['installed'] === false)) ? false : true;
     if (!$status) {
-        WTOTEMSEC_LIBRARY_Session::setNotification("warning",WTOTEMSEC_LIBRARY_Localization::lmsg('unable_to_connect_to_service', ['service' => $service,'site' => $domain]));
+        WTSEC_LIBRARY_Session::setNotification("warning",WTSEC_LIBRARY_Localization::lmsg('unable_to_connect_to_service', ['service' => $service,'site' => $domain]));
     }
     return $status;
 }
 
 
-function wtotemsec_servicePing($service,$domain = '')
+function wtsec_servicePing($service,$domain = '')
 {
     if($domain == NULL) return false;
     if(mb_stripos($domain,"http") === false){
@@ -123,42 +127,20 @@ function wtotemsec_servicePing($service,$domain = '')
     if($httpcode>=200 && $httpcode<400){
         return true;
     } else {
-        WTOTEMSEC_LIBRARY_Session::setNotification("warning",WTOTEMSEC_LIBRARY_Localization::lmsg('unable_to_connect_to_service', ['service' => $service,'site' => $domain]));
+        WTSEC_LIBRARY_Session::setNotification("warning",WTSEC_LIBRARY_Localization::lmsg('unable_to_connect_to_service', ['service' => $service,'site' => $domain]));
         return false;
     }
 }
 
-function wtotemsec_getInstalledFile($service)
-{
-    if($service === "VC"){
-        $files = scandir(ABSPATH);
-        foreach ($files as $file) {
-            if ($file[0] !== "." && stripos($file, "." . strtolower($service) . ".php") !== false) {
-                return $file;
-            }
-        }
-    }else{
-        $files = scandir(WTOTEMSEC_INSTALLATION_DIR);
-        foreach ($files as $file) {
-            if (stripos($file, "." . strtolower($service) . ".php") !== false) {
-                return $file;
-            }
-        }
-    }
-
-    return null;
-}
-
-
-function wtotemsec_button($label = '',$class = ''){
+function wtsec_button($label = '',$class = ''){
     return '<button class="ww-button '.$class.'">'.$label.'</button>';
 }
 
-function wtotemsec_main_button($label = '',$class = ''){
+function wtsec_main_button($label = '',$class = ''){
     return '<button class="ww-button '.$class.'">'.$label.'</button>';
 }
 
-function wtotemsec_generateButtons($uid,$_service, $service, $status,$domain = '')
+function wtsec_generateButtons($uid,$_service, $service, $status,$domain = '')
 {
     $url = esc_url(admin_url('admin-post.php'));
     $buttons = [];
@@ -169,7 +151,7 @@ function wtotemsec_generateButtons($uid,$_service, $service, $status,$domain = '
         <input type="hidden" name="uid" value="'.$uid.'">
         <input type="hidden" name="cmd" value="{{{cmd}}}">{{{button}}}</form>';
     $result = [];
-    $installedFile = wtotemsec_checkInstalledFile($service);
+    $installedFile = wtsec_checkInstalledFile($_service);
     $runned = $status['active'];
 
     if($service === "WAF"){
@@ -180,30 +162,30 @@ function wtotemsec_generateButtons($uid,$_service, $service, $status,$domain = '
     $disable_uninstall = false;
     if (!$installedFile['status']) {
         $cmd = $_service . '_install';
-        $buttons[] = ['place' => 'first','button' => wtotemsec_button(WTOTEMSEC_LIBRARY_Localization::lmsg('install'),$first_class."ww-button--success"),'cmd' => $cmd];
+        $buttons[] = ['place' => 'first','button' => wtsec_button(WTSEC_LIBRARY_Localization::lmsg('install'),$first_class."ww-button--success"),'cmd' => $cmd];
     } else {
         if($service === "WAF"){
             $url = $domain.'/?ping='.$installedFile['file'];
         }else{
             $url = $domain.'/'.$installedFile['file'];
         }
-        $connected = wtotemsec_servicePing($service,$url);
+        $connected = wtsec_servicePing($service,$url);
         if (!$connected) {
             $disable_uninstall = true;
             $cmd = $_service . '_connect';
-            $buttons[] = ['place' => 'first','button' => wtotemsec_button(WTOTEMSEC_LIBRARY_Localization::lmsg('connect'),$first_class."ww-button--success"),'cmd' => $cmd];
+            $buttons[] = ['place' => 'first','button' => wtsec_button(WTSEC_LIBRARY_Localization::lmsg('connect'),$first_class."ww-button--success"),'cmd' => $cmd];
         } else {
             if ($runned) {
                 $cmd = $_service . '_stop';
-                $buttons[] = ['place' => 'second','button' => wtotemsec_button(WTOTEMSEC_LIBRARY_Localization::lmsg('stop'),"ww-button--primary"),'cmd' => $cmd];
+                $buttons[] = ['place' => 'second','button' => wtsec_button(WTSEC_LIBRARY_Localization::lmsg('stop'),"ww-button--primary"),'cmd' => $cmd];
             } else {
                 $cmd = $_service . '_start';
-                $buttons[] = ['place' => 'second','button' => wtotemsec_button(WTOTEMSEC_LIBRARY_Localization::lmsg('run'),"ww-button--primary"),'cmd' => $cmd];
+                $buttons[] = ['place' => 'second','button' => wtsec_button(WTSEC_LIBRARY_Localization::lmsg('run'),"ww-button--primary"),'cmd' => $cmd];
             }
         }
         if(!$disable_uninstall && !$runned){
             $cmd = $_service . '_uninstall';
-            $buttons[] = ['place' => 'first','button' => wtotemsec_button(WTOTEMSEC_LIBRARY_Localization::lmsg('uninstall'),$first_class."ww-button--attention"),'cmd' => $cmd];
+            $buttons[] = ['place' => 'first','button' => wtsec_button(WTSEC_LIBRARY_Localization::lmsg('uninstall'),$first_class."ww-button--attention"),'cmd' => $cmd];
         }
     }
     foreach ($buttons as $btn){
@@ -215,8 +197,12 @@ function wtotemsec_generateButtons($uid,$_service, $service, $status,$domain = '
     return $result;
 }
 
-function wtotemsec_checkInstalledFile($service)
+function wtsec_checkInstalledFile($service)
 {
-    $file = wtotemsec_getInstalledFile($service);
-    return ['status' => is_null($file) ? false : true,'file' => $file];
+    $file = wtsec_getInstalledFile($service);
+    return ['status' => (bool) $file,'file' => $file];
+}
+
+function wtsec_getInstalledFile($service){
+    return wtsec_app()->get($service."_installed_file");
 }

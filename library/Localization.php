@@ -1,6 +1,7 @@
-<?php
+<?php defined('ABSPATH') or die("Protected By WT!");
 
-class WTOTEMSEC_LIBRARY_Localization
+
+class WTSEC_LIBRARY_Localization
 {
 
     public static function lmsg($lmsg,$values = []){
@@ -30,6 +31,6 @@ class WTOTEMSEC_LIBRARY_Localization
     }
 
     public static function getPath($lang){
-        return WTOTEMSEC_PLUGIN_PATH.'resources/locales/'.$lang.'.php';
+        return WTSEC_PLUGIN_PATH.'resources/locales/'.$lang.'.php';
     }
 }
